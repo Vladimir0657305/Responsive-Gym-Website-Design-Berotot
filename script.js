@@ -39,3 +39,50 @@ const scrollHeader = () => {
         : header.classList.remove('bg-header')
 }
 window.addEventListener('scroll', scrollHeader)
+
+/*=============== CALCULATE JS ===============*/
+const calculateForm = document.getElementById('calculate-form'),
+    calculateCm = document.getElementById('calculate-cm'),
+    calculateKg = document.getElementById('calculate-kg'),
+    calculateMassage = document.getElementById('calculate-message');
+const calculateBmi = (e) => {
+    e.preventDefault();
+    // Check if the field have  a value
+    if (calculateCm.value === '' || calculateKg.value === '') {
+        // Add remove color
+        calculateMassage.classList.remove('color-green');
+        calculateMassage.classList.add('color-red');
+        // Show message
+        calculateMassage.textContent = 'Fill in the Weight and Height 🐱‍💻'
+        // Remove message three seconds
+        setTimeout(() => {
+            calculateMassage.textContent = '';
+        }, 3000)
+    } else {
+        // BMI Formula
+        const cm = calculateCm.value / 100,
+            kg = calculateKg.value,
+            bmi = Math.round(kg / (cm * cm));
+        // Show your heals status
+        if (bmi < 18.5) {
+            // Add color and display message
+            calculateMassage.classList.add('color-green');
+            calculateMassage.textContent = `Your BMI is ${bmi} and your are skinny 😒`
+        } else if (bmi < 25) {
+            calculateMassage.classList.add('color-green');
+            calculateMassage.textContent = `Your BMI is ${bmi} and your are healthy 👌`
+        } else {
+            calculateMassage.classList.add('color-green');
+            calculateMassage.textContent = `Your BMI is ${bmi} and your are overweight 😒`
+        }
+        //  To clear the input field
+        calculateCm.value = '';
+        calculateKg.value = '';
+        //  Remove message four second
+        setTimeout(() => {
+            calculateMassage.textContent = '';
+        }, 4000)
+    }
+}
+
+calculateForm.addEventListener('submit', calculateBmi)
